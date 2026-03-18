@@ -1,0 +1,1 @@
+This repository is dedicated to personal learning and practice based on the textbook "Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow." It contains code implementations, exercises, and experimental notes developed during the UWA 2026 S1 semester.
