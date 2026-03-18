@@ -1,0 +1,75 @@
+# --- Python 虚拟环境 ---
+# 忽略 venv 文件夹本身，因为环境应该通过 requirements.txt 重建
+.venv/
+venv/
+ENV/
+env/
+/bin/
+/lib/
+/include/
+/share/
+
+# --- Python 编译缓存 ---
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# --- 操作系统与 IDE 相关 ---
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.bak
+
+# --- 项目依赖与打包 ---
+# 只有生成的包需要忽略，源代码不要忽略
+dist/
+build/
+*.egg-info/
+nosetests.xml
+coverage.xml
+.coverage
+
+# --- 环境变量与私密信息 (非常重要！) ---
+.env
+.flaskenv
+instance/
+
+# --- Jupyter Notebook 核心忽略项 ---
+# 忽略所有自动保存的检查点文件夹
+.ipynb_checkpoints/
+*/.ipynb_checkpoints/
+
+# 如果你使用 JupyterLab，忽略其生成的设置和缓存
+.jupyter/
+.local/share/jupyter/
+
+# --- IPython 相关 ---
+# 忽略 IPython 的配置文件和历史记录
+.ipython/
+profile_default/
+history.sqlite
+
+# --- 运行生成的临时文件 ---
+# 忽略自动转换生成的 HTML/PDF/Markdown 等副本（如果你习惯用 nbconvert）
+*.html
+*.pdf
+*.nbconvert.ipynb
+requirements.txt.bak
+
+# --- 数据与大文件 (重要建议) ---
+# Jupyter 经常处理数据，建议忽略原始数据集，只保留脚本
+# 这样可以防止不小心把几个 GB 的 CSV 推送到仓库
+data/
+*.csv
+*.jsonl
+*.parquet
+*.h5
+*.pkl
+
+# --- 缓存与日志 ---
+.cache/
+*.log
