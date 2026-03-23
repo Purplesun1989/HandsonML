@@ -37,31 +37,32 @@ def fetch_housing_data(housing_url=HOUSING_URL, housing_path=HOUSING_PATH):
 
 def load_housing_data(housing_path=HOUSING_PATH):
     csv_path = os.path.join(housing_path, "housing.csv")
-
     return pd.read_csv(csv_path)
 
 
-def split_train_test():
+def split_train_test(housing):
     train_set, test_set = train_test_split(housing, test_size=0.2, random_state=42)
     split = StratifiedShuffleSplit(n_splits=1, test_size=0.2, random_state=42)
     housing["income_cat"] = pd.cut(housing["median_income"],
                                    bins=[0., 1.5, 3.0, 4.5, 6., np.inf],
                                    labels=[1, 2, 3, 4, 5])
+    # 根据直方图划分数据段，计算比例后，使用split方法进行分层抽样，确保取样的全局代表性
     for train_index, test_index in split.split(housing, housing["income_cat"]):
         strat_train_set = housing.loc[train_index]
         strat_test_set = housing.loc[test_index]
 
-    print(strat_test_set.info())
-    print(test_set.info())
+    return strat_train_set, strat_test_set
+
+def matplot(strat_train_set):
+    housing = strat_train_set.copy()
+    housing.plot(kind="scatter", x="longitude", y="latitude", alpha=0.4,
+                 s=housing["population"] / 100, label="population", figsize=(10, 7),
+                 c="median_house_value", cmap=plt.get_cmap("jet"), colorbar=True,
+                 )
+    plt.legend()
 
 
-
-
-
-# 执行函数
 if __name__ == "__main__":
     # fetch_housing_data()
     housing = load_housing_data()
-    # housing.hist(bins=50, figsize=(20, 15))
-    # plt.show()
-    split_train_test()
+    print(split_train_test(housing))
