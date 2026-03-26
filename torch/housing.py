@@ -21,7 +21,7 @@ class HousingValueModel(nn.Module):
             nn.ReLU(),
             nn.Linear(128, 64),
             nn.ReLU(),
-            nn.Linear(256, 32),
+            nn.Linear(64, 32),
             nn.ReLU(),
             nn.Linear(32, output)
         )
@@ -70,7 +70,46 @@ if __name__ == "__main__":
     ocean_column_name = r"ocean_proximity"
     raw_df = read_data(csv_path)
     X_tensor, y_tensor = get_tensor(raw_df, y_column_name, ocean_column_name)
-    print(X_tensor[:5])
+
+    train_loader, val_loader = create_dataloader(X_tensor, y_tensor)
+    # X_batch, y_batch = next(iter(train_loader))
+    # print(X_batch.shape)
+    # print(y_batch.shape)   
+    # print(X_batch[:5])   
+    # print(y_batch[:5])
+
+    model = HousingValueModel(input=X_tensor[0].shape[0], output=y_tensor[0].shape[0])
+    optimizer = torch.optim.Adam(params=model.parameters(), lr=1e-3)
+    loss_fn = nn.MSELoss()
+
+    EPOCH_NUM = 10
+    epoch_list = []
+    train_loss_list = []
+    val_loss_list = []
+    acc_list = []
+
+    for i in tqdm(range(EPOCH_NUM + 1)):
+        model.train()
+        train_loss = 0
+        for X_batch, y_batch in train_loader:
+            y_predict = model(X_batch)
+            loss = loss_fn(y_predict, y_batch)
+            train_loss += loss.item()
+            optimizer.zero_grad()
+            loss.backward()
+            optimizer.step()
+        train_loss_list.append(train_loss)
+
+        model.eval()
+        val_loss = 0
+        with torch.inference_mode():
+            for X_batch, y_batch in val_loader:
+                y_predict = model(X_batch)
+                loss = loss_fn(y_predict, y_batch)
+                val_loss += loss.item()
+            val_loss_list.append(val_loss)
+
+        print(f"Epoch: {i} | Train loss: {train_loss} | Val loss: {val_loss}")
 
 
 
