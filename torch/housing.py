@@ -91,7 +91,7 @@ if __name__ == "__main__":
 
     # X_batch, y_batch = next(iter(train_loader))
     # print(y_batch)
-    
+    torch.manual_seed(42)
     model = HousingValueModel(input=X_tensor[0].shape[0], output=y_tensor[0].shape[0]).to(device)
     optimizer = torch.optim.Adam(params=model.parameters(), lr=1e-3)
     loss_fn = nn.L1Loss()
