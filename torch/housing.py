@@ -1,4 +1,4 @@
-# ./torch/housing.py
+ # ./torch/housing.py
 
 import torch
 import torch.nn as nn
@@ -65,7 +65,7 @@ def create_dataloader(X_tensor, y_tensor) -> Tuple[DataLoader, DataLoader]:
     
 
 if __name__ == "__main__":
-    csv_path = r"torch/housing.csv"
+    csv_path = r"Chapter_2/datasets/housing/housing.csv"
     y_column_name = r"median_house_value"
     ocean_column_name = r"ocean_proximity"
     raw_df = read_data(csv_path)
